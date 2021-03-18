@@ -136,3 +136,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Colors API database
+colors.db

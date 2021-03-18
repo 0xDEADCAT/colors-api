@@ -23,11 +23,13 @@ color_value_pattern = re.compile(r'^#[0-9a-f]{3}$')
 
 
 def get_colors():
+    """Returns the whole list of colors from the database."""
     colors = session.query(Color).all()
     return jsonify([c.serialize for c in colors])
 
 
 def get_color(color_name):
+    """Returns a single color from the database."""
     try:
         color = session.query(Color).filter_by(color=color_name).one()
         return jsonify(color.serialize)
@@ -35,7 +37,8 @@ def get_color(color_name):
         return jsonify(error='No color with the given name exists.')
 
 
-def create_color(color_name, color_value):
+def insert_color(color_name, color_value):
+    """Inserts a new color into the database."""
     # Check if the color_value format is valid
     if color_value_pattern.match(color_value):
         new_color = Color(color=color_name, value=color_value)
@@ -57,14 +60,20 @@ def colors_endpoint():
         return get_colors()
     elif request.method == 'POST':
         color_json = request.get_json()
-        color_name = color_json['color'].strip().lower()
-        color_value = color_json['value'].strip().lower()
-        if color_name and color_value:
-            return create_color(color_name=color_name, color_value=color_value)
+        if color_json:
+            try:
+                color_name = color_json['color'].strip().lower()
+                color_value = color_json['value'].strip().lower()
+            except KeyError as err:
+                return jsonify(error=f'The {str(err)} field is missing from the request body.')
+            if color_name and color_value:
+                return insert_color(color_name=color_name, color_value=color_value)
+            else:
+                error_msg = f'The color name and value cannot be empty.' if not color_name and not color_value \
+                    else f'The color name cannot be empty.' if not color_name else f'The color value cannot be empty.'
+                return jsonify(error=error_msg)
         else:
-            error_msg = f'The color name and value cannot be empty.' if not color_name and not color_value \
-                else f'The color name cannot be empty.' if not color_name else f'The color value cannot be empty.'
-            return jsonify(error=error_msg)
+            return jsonify(error='Missing request body.')
 
 
 @app.route('/colors/<color_name>')

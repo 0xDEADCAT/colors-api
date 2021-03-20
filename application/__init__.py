@@ -1,18 +1,16 @@
 import connexion
 
-from config import Config
 
-
-def create_app():
+def create_app(config_obj):
     # Create the Connexion application instance
-    connex_app = connexion.App(__name__, specification_dir=Config.SPECIFICATION_DIR)
+    connex_app = connexion.App(__name__, specification_dir=config_obj.SPECIFICATION_DIR)
 
     # Read the specification file to configure the endpoints
-    connex_app.add_api(Config.SPECIFICATION_FILE)
+    connex_app.add_api(config_obj.SPECIFICATION_FILE)
 
     # Get the underlying Flask app instance
     app = connex_app.app
-    app.config.from_object(Config)
+    app.config.from_object(config_obj)
 
     # Initialize database plugin
     from application.models import db

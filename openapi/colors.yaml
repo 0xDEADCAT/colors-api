@@ -1,0 +1,91 @@
+openapi: 3.0.1
+info:
+  title: Colors API
+  version: 1.0.0
+tags:
+  - name: colors
+    description: Access to colors list
+paths:
+  /colors:
+    get:
+      tags:
+        - colors
+      summary: Retrieve the whole list of colors
+      operationId: api.colors.read_all
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Color'
+    post:
+      tags:
+        - colors
+      summary: Insert a new color into the list
+      operationId: api.colors.create
+      requestBody:
+        description: Color object that needs to be added to the list
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Color'
+        required: true
+      responses:
+        201:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Color'
+        400:
+          description: Bad request
+  '/colors/{color_name}':
+    get:
+      tags:
+        - colors
+      summary: Retrieve a single color from the list
+      operationId: api.colors.read_one
+      parameters:
+        - name: color_name
+          in: path
+          description: Name of color to return
+          required: true
+          schema:
+            $ref: '#/components/schemas/color_name'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Color'
+        400:
+          description: Invalid name supplied
+          content: {}
+        404:
+          description: Color not found
+          content: {}
+components:
+  schemas:
+    Color:
+      required:
+        - color
+        - value
+      type: object
+      properties:
+        color:
+          $ref: '#/components/schemas/color_name'
+        value:
+          $ref: '#/components/schemas/color_value'
+    color_name:
+      type: string
+      minLength: 3
+      pattern: '^[a-z]+[a-z ]*$'
+      example: 'white'
+    color_value:
+      type: string
+      pattern: '^(#[0-9a-f]{6})|(#[0-9a-f]{3})$'
+      example: '#fff'

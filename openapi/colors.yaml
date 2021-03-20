@@ -86,9 +86,9 @@ components:
     color_name:
       type: string
       minLength: 3
-      pattern: '^[a-z]+[a-z ]*$'
+      pattern: '^[a-z]{3,}[a-z ]*$'
       example: 'white'
     color_value:
       type: string
-      pattern: '^(#[0-9a-f]{6})|(#[0-9a-f]{3})$'
+      pattern: '^#([0-9a-f]{6}|[0-9a-f]{3})$'
       example: '#fff'

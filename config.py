@@ -12,3 +12,14 @@ class Config:
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'application/colors.db')
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+class TestConfig:
+    # Connexion
+    SPECIFICATION_DIR = os.path.join(basedir, 'openapi/')
+    SPECIFICATION_FILE = 'colors.yaml'
+
+    # Flask-SQLAlchemy
+    SQLALCHEMY_DATABASE_URI = 'sqlite://'
+    SQLALCHEMY_ECHO = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = False

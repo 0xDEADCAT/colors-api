@@ -2,6 +2,9 @@ openapi: 3.0.1
 info:
   title: Colors API
   version: 1.0.0
+servers:
+  - url: /api
+    description: Main (production) server
 tags:
   - name: colors
     description: Access to colors list
@@ -11,7 +14,7 @@ paths:
       tags:
         - colors
       summary: Retrieve the whole list of colors
-      operationId: api.colors.read_all
+      operationId: application.colors.read_all
       responses:
         200:
           description: successful operation
@@ -25,7 +28,7 @@ paths:
       tags:
         - colors
       summary: Insert a new color into the list
-      operationId: api.colors.create
+      operationId: application.colors.create
       requestBody:
         description: Color object that needs to be added to the list
         content:
@@ -47,7 +50,7 @@ paths:
       tags:
         - colors
       summary: Retrieve a single color from the list
-      operationId: api.colors.read_one
+      operationId: application.colors.read_one
       parameters:
         - name: color_name
           in: path

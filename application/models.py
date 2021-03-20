@@ -1,4 +1,7 @@
-from config import db
+from flask_sqlalchemy import SQLAlchemy
+
+# Globally accessible database object
+db = SQLAlchemy()
 
 
 # Class used by SQLAlchemy to build the Colors table in the database

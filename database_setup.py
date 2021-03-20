@@ -1,12 +1,20 @@
 import json
 import os
 
-from config import db
-from models import Color
+from application import create_app
+from application.models import Color
+from application.models import db
+
+from config import Config
 
 # Delete database file if it exists currently
-if os.path.exists('colors.db'):
-    os.remove('colors.db')
+db_file = ''.join(Config.SQLALCHEMY_DATABASE_URI.split('sqlite:///'))
+if os.path.exists(db_file):
+    os.remove(db_file)
+
+connex_app = create_app()
+app = connex_app.app
+app.app_context().push()
 
 # Create the database
 db.create_all()

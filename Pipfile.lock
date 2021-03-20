@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b9e03a6965ae683db03bfb027a8aa4adb4cd9220b956e6cf6bfe1cd4d8cffbed"
+            "sha256": "e6d6c5eb3620a6fbb15780655fec4be8e5679a2ffa8f6cb10cce66cd896c9f5f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -347,7 +347,7 @@
                 "sha256:facacaea95e0822f7bbeaa6909b30b2836b14cff8790209d52a0c866e240b673",
                 "sha256:ff76d7dbf33f62e30e5a1d1b095d46afcdc49e42cbe33ce12014110147466700"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'",
+            "index": "pypi",
             "version": "==1.4.2"
         },
         "swagger-ui-bundle": {
@@ -364,6 +364,13 @@
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'",
             "version": "==1.26.4"
+        },
+        "uwsgi": {
+            "hashes": [
+                "sha256:faa85e053c0b1be4d5585b0858d3a511d2cd10201802e8676060fd0a109e5869"
+            ],
+            "index": "pypi",
+            "version": "==2.0.19.1"
         },
         "werkzeug": {
             "hashes": [

@@ -1,8 +1,8 @@
 from flask import abort
 from sqlalchemy.exc import IntegrityError, PendingRollbackError, NoResultFound
 
-from config import db
-from models import Color
+from application.models import Color
+from application.models import db
 
 
 def read_all():

@@ -9,7 +9,7 @@ class Color(Base):
     __tablename__ = 'Colors'
 
     color = Column(String(50), primary_key=True, nullable=False)
-    value = Column(String(4), nullable=False)
+    value = Column(String(7), nullable=False)
 
     @property
     def serialize(self):

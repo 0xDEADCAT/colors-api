@@ -20,5 +20,8 @@ def redirect_to_swagger_ui():
     return redirect('/ui')
 
 
+# uWSGI looks for 'application' by default
+application = connex_app
+
 if __name__ == '__main__':
     connex_app.run()

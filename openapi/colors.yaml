@@ -64,10 +64,10 @@ paths:
                 $ref: '#/components/schemas/Color'
         400:
           description: Invalid name supplied
-          content: {}
+          content: { }
         404:
           description: Color not found
-          content: {}
+          content: { }
 components:
   schemas:
     Color:

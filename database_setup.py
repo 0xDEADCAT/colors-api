@@ -12,7 +12,7 @@ db_file = ''.join(Config.SQLALCHEMY_DATABASE_URI.split('sqlite:///'))
 if os.path.exists(db_file):
     os.remove(db_file)
 
-connex_app = create_app()
+connex_app = create_app(Config)
 app = connex_app.app
 app.app_context().push()
 

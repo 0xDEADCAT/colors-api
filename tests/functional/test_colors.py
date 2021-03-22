@@ -9,21 +9,17 @@ def test_read_all_colors_empty(client, init_empty_database):
     assert len(response.json) == 0
 
 
-def test_read_all_colors(client, init_database):
-    expected_colors_list = [{'color': 'red', 'value': '#f00'},
-                            {'color': 'green', 'value': '#0f0'},
-                            {'color': 'blue', 'value': '#00f'}]
+def test_read_all_colors(client, init_database, colors_list):
     response = client.get(url_for('/api.application_colors_read_all'))
     assert response.status_code == 200
     assert isinstance(response.json, list)
     assert len(response.json) == 3
     for index, color in enumerate(response.json):
-        assert color['color'] == expected_colors_list[index]['color']
-        assert color['value'] == expected_colors_list[index]['value']
+        assert color['color'] == colors_list[index]['color']
+        assert color['value'] == colors_list[index]['value']
 
 
-def test_read_one_color(client, init_database):
-    color_red = {'color': 'red', 'value': '#f00'}
+def test_read_one_color(client, init_database, color_red):
     response = client.get(url_for('/api.application_colors_read_one', color_name=color_red['color']))
     assert response.status_code == 200
     assert isinstance(response.json, dict)
@@ -38,16 +34,14 @@ def test_read_one_color_with_invalid_name(client, init_empty_database):
     assert f"'{color_name}' does not match" in response.json['detail']
 
 
-def test_read_one_non_existing_color(client, init_empty_database):
-    color_red = {'color': 'red', 'value': '#f00'}
+def test_read_one_non_existing_color(client, init_empty_database, color_red):
     response = client.get(url_for('/api.application_colors_read_one', color_name=color_red['color']))
     assert response.status_code == 404
     assert isinstance(response.json, dict)
     assert f"color '{color_red['color']}' not found"
 
 
-def test_create_color(client, init_empty_database):
-    color_red = {'color': 'red', 'value': '#f00'}
+def test_create_color(client, init_empty_database, color_red):
     response = client.post(url_for('/api.application_colors_create'), json=color_red)
     assert response.status_code == 201
     assert isinstance(response.json, dict)

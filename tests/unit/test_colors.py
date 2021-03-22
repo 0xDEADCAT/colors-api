@@ -16,7 +16,7 @@ def test_read_all_empty_database(init_empty_database):
     assert isinstance(colors_list, list)
 
 
-def test_read_all(init_database):
+def test_read_all(init_database, colors_list):
     """
     GIVEN a Colors table with three colors: 'red', 'green', 'blue' in the database
     WHEN attempting to retrieve the whole list of colors
@@ -24,27 +24,25 @@ def test_read_all(init_database):
                                         {'color': 'green', 'value': '#0f0'},
                                         {'color': 'blue', 'value': '#00f'} should be returned
     """
-    expected_colors_list = [{'color': 'red', 'value': '#f00'},
-                            {'color': 'green', 'value': '#0f0'},
-                            {'color': 'blue', 'value': '#00f'}]
-    colors_list = read_all()
-    assert len(colors_list) == 3
-    assert isinstance(colors_list, list)
-    for index, color in enumerate(colors_list):
-        assert color['color'] == expected_colors_list[index]['color']
-        assert color['value'] == expected_colors_list[index]['value']
+    returned_colors_list = read_all()
+    print(returned_colors_list)
+    assert len(returned_colors_list) == 3
+    assert isinstance(returned_colors_list, list)
+    for index, color in enumerate(returned_colors_list):
+        assert color['color'] == colors_list[index]['color']
+        assert color['value'] == colors_list[index]['value']
 
 
-def test_read_one(init_database):
+def test_read_one(init_database, color_red):
     """
     GIVEN a Colors table with three colors: 'red', 'green', 'blue' in the database
     WHEN attempting to retrieve the color 'red'
     THEN a dict {'color': 'red', 'value': '#f00'} should be returned
     """
-    color_red = read_one('red')
-    assert isinstance(color_red, dict)
-    assert color_red['color'] == 'red'
-    assert color_red['value'] == '#f00'
+    returned_color = read_one('red')
+    assert isinstance(returned_color, dict)
+    assert returned_color['color'] == color_red['color']
+    assert returned_color['value'] == color_red['value']
 
 
 def test_read_one_non_existing_color(init_database):
@@ -59,14 +57,13 @@ def test_read_one_non_existing_color(init_database):
     assert str(e.value) == f"404 Not Found: color '{color}' not found"
 
 
-def test_create(init_empty_database):
+def test_create(init_empty_database, color_red):
     """
     GIVEN an empty Colors table in the database
     WHEN attempting to insert the dict {'color': 'red', 'value': '#f00'} in that table
     THEN the color should be created in the database and a tuple containing the
          dict {'color': 'red', 'value': '#f00'} and status code 201 should be returned
     """
-    color_red = {'color': 'red', 'value': '#f00'}
     returned_color, status_code = create(color_red)
     assert isinstance(returned_color, dict)
     assert returned_color['color'] == color_red['color']
@@ -74,13 +71,12 @@ def test_create(init_empty_database):
     assert status_code == 201
 
 
-def test_create_duplicate(init_database):
+def test_create_duplicate(init_database, color_red):
     """
     GIVEN a Colors table with three colors: 'red', 'green', 'blue' in the database
     WHEN attempting to insert the dict {'color': 'red', 'value': '#f00'} in that table
     THEN an IntegrityError exception should be raised
     """
-    color_red = {'color': 'red', 'value': '#f00'}
     with pytest.raises(BadRequest) as e:
         with pytest.warns(SAWarning):
             assert create(color_red)
